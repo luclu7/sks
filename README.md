@@ -1,9 +1,9 @@
 # SKS
-## SSH Key Server
+SSH Key Server
 
-A SSH-accessible key server. You can add/remove your key(s), list every keys on the server and get a specific user's key(s), all via SSH !
+An SSH-accessible key server. You can add/remove your key(s), list every keys on the server and get a specific user's key(s), all via SSH !
 
-### Installation
+# Installation
 
 First, make sure you have golang installed: it is used for the SSH server itself. SQLite3 and dialog are the other dependencies.
 Then, we need to install dependencies:
