@@ -4,7 +4,7 @@ SSHKEY=$1
 
 function add {
 echo "\$SSHKEY is" $SSHKEY
-existantkey=$(sqlite3 db.sqlite "SELECT * FROM keys WHERE key LIKE '$SSHKEY';")
+existantkey=$(sqlite3 db.sqlite "SELECT * FROM keys WHERE key=='$SSHKEY';")
 
 if [[ $existantkey != "" ]]; then
 echo "Your key is already in the database."
@@ -34,7 +34,7 @@ esac
 function remove {
 echo removing your key
 sqlite3 db.sqlite <<EOF
-DELETE FROM keys WHERE key LIKE '$SSHKEY';
+DELETE FROM keys WHERE key=='$SSHKEY';
 select * from keys;
 EOF
 }
