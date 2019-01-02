@@ -4,6 +4,11 @@ SSHKEY=$1
 
 function add {
 echo "\$SSHKEY is" $SSHKEY
+existantkey=$(sqlite3 db.sqlite "SELECT * FROM keys WHERE key LIKE '$SSHKEY';")
+
+if [[ $existantkey != "" ]]; then
+echo "Your key is already in the database."
+else
 echo "What's your name?"
 read name
 echo "Adding you key to the database..."
@@ -11,7 +16,7 @@ sqlite3 db.sqlite <<EOF
 INSERT INTO keys(pseudo,key) VALUES('$name','$SSHKEY');
 select * from keys;
 EOF
-
+fi
 } 
 
 function case-dialog {
