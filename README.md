@@ -25,9 +25,10 @@ cp /etc/ssh/ssh_host_rsa_key hostkey
 ```
 
 And you're ready to start !
-Let's start the server:
+Let's build and start the server:
 ```bash
-go run main.go
+go build
+./sks
 ```
 
 Now, connect to it:
