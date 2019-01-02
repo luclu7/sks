@@ -7,7 +7,6 @@ echo "\$SSHKEY is" $SSHKEY
 echo "What's your name?"
 read name
 echo "Adding you key to the database..."
-#bash sqlite.sh $name 'olol mdr jpp'
 sqlite3 db.sqlite <<EOF
 INSERT INTO keys(pseudo,key) VALUES('$name','$SSHKEY');
 select * from keys;
@@ -18,10 +17,11 @@ EOF
 function case-dialog {
 case $choix in
 'Add')		add;;
-'Reset')	cp db.sqlite.clean db.sqlite;;
+'Reset')	cp db.sqlite.clean db.sqlite;; # yeah this won't be available for everyone
 'Remove')	remove;;
-'Edit')		exit;;
 'List')		list;;
+'Get')		get;;
+'Edit')		exit;;
 'About')	exit;;
 esac
 }
@@ -37,6 +37,14 @@ EOF
 function list {
 sqlite3 db.sqlite <<EOF
 select * from keys;
+EOF
+}
+
+function get {
+echo "Whose key do you want?"
+read name
+sqlite3 db.sqlite <<EOF
+SELECT * FROM keys WHERE pseudo LIKE '$name';
 EOF
 }
 
@@ -56,7 +64,8 @@ $DIALOG --clear --title "SKS - Manage" \
 	 "Reset" "Reset the database" \
 	 "Remove" "Remove your key" \
 	 "List" "List keys" \
- 	 "Edit" "Edit your key (name, contact)" \
+ 	 "Get" "Get specific user's key(s)" \
+	 "Edit" "Edit your key (name, contact)" \
 	 "About" "What's SKS ?" 2> $fichtemp
 valret=$?
 choix=`cat $fichtemp`

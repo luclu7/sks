@@ -45,7 +45,7 @@ func main() {
 				s.Exit(1)
 			}
 		} else {
-			io.WriteString(s, "Wrong user, i accept `api` and `gui`.\n")
+			io.WriteString(s, "Wrong user, I accept `gui`.\n")
 		}
 	})
 
@@ -54,5 +54,5 @@ func main() {
 	})
 
 	log.Println("starting ssh server on port 2222...")
-	log.Fatal(ssh.ListenAndServe(":2222", nil, ssh.HostKeyFile("/Users/luciedelestre/.ssh/id_rsa"), publicKeyOption))
+	log.Fatal(ssh.ListenAndServe(":2222", nil, ssh.HostKeyFile("hostkey"), publicKeyOption))
 }
