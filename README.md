@@ -3,6 +3,11 @@ SSH Key Server
 
 An SSH-accessible key server. You can add/remove your key(s), list every keys on the server and get a specific user's key(s), all via SSH !
 
+You can try it:
+```
+ssh gui@116.203.45.73
+```
+
 Installation
 ---------
 
