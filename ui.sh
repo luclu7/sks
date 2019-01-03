@@ -10,6 +10,7 @@ case $choix in
 'Get')          get;;
 'Edit')         exit;;
 'About')        exit;;
+'Exit')		clear; exit;;
 esac
 }
 
@@ -72,7 +73,8 @@ $DIALOG --clear --title "SKS - Manage" \
 	 "List" "List keys" \
  	 "Get" "Get specific user's key(s)" \
 	 "Edit" "Edit your key (name, contact)" \
-	 "About" "What's SKS ?" 2> $fichtemp
+	 "About" "What's SKS ?" \
+	 "Exit" "Exit SKS" 2> $fichtemp
 valret=$?
 choix=`cat $fichtemp`
 echo $valret $choix
