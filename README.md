@@ -20,9 +20,10 @@ git clone https://github.com/luclu7/sks
 cd sks
 ```
 
-Copy your server's hostkey:
+Copy your server's hostkey and the initial database:
 ```bash
 cp /etc/ssh/ssh_host_rsa_key hostkey
+cp db.sqlite.clean db.sqlite
 ```
 
 And you're ready to start !
