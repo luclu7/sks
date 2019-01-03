@@ -5,7 +5,7 @@ function case-dialog {
 case $choix in
 'Add')          add;;
 'Reset')        cp db.sqlite.clean db.sqlite && start_menu;; # yeah this won't be available for everyone
-'Remove')       remove;;
+'Remove')       confirm-remove;;
 'List')         list;;
 'Get')          get;;
 'Edit')         exit;;
@@ -31,12 +31,28 @@ fi
 start_menu
 } 
 
+function confirm-remove {
+existantkey=$(sqlite3 db.sqlite "SELECT * FROM keys WHERE key=='$SSHKEY';")
+
+if [[ $existantkey == "" ]]; then
+dialog --title "SKS - Add your key" --msgbox "Your key is not in the database." 5 40
+start_menu
+else
+dialog --backtitle "SKS - Remove your key" --yesno "Are you sure you want to delete your key from the database?" 7 60
+case $? in
+   0) remove;;
+   1) start_menu;;
+   255) start_menu;;
+esac
+fi
+}
+
 function remove {
 sqlite3 db.sqlite <<EOF
 DELETE FROM keys WHERE key=='$SSHKEY';
 select * from keys;
 EOF
-dialog --title "SKS - Remove your key" --msgbox "Your key has been removed from thhe database." 6 40
+dialog --title "SKS - Remove your key" --msgbox "Your key has been removed from the database." 6 40
 start_menu
 }
 
