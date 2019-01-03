@@ -21,31 +21,24 @@ func setWinsize(f *os.File, w, h int) {
 
 func main() {
 	ssh.Handle(func(s ssh.Session) {
-		if s.User() == "gui" {
-			authorizedKey := gossh.MarshalAuthorizedKey(s.PublicKey())
-			cmd := exec.Command("bash", "ui.sh", string(authorizedKey))
-			ptyReq, winCh, isPty := s.Pty()
-			if isPty {
-				cmd.Env = append(cmd.Env, fmt.Sprintf("TERM=%s", ptyReq.Term))
-				f, err := pty.Start(cmd)
-				if err != nil {
-					panic(err)
-				}
-				go func() {
-					for win := range winCh {
-						setWinsize(f, win.Width, win.Height)
-					}
-				}()
-				go func() {
-					io.Copy(f, s) // stdin
-				}()
-				io.Copy(s, f) // stdout
-			} else {
-				io.WriteString(s, "No PTY requested.\n")
-				s.Exit(1)
+		authorizedKey := gossh.MarshalAuthorizedKey(s.PublicKey())
+		cmd := exec.Command("bash", "ui.sh", string(authorizedKey))
+		ptyReq, winCh, isPty := s.Pty()
+		if isPty {
+			cmd.Env = append(cmd.Env, fmt.Sprintf("TERM=%s", ptyReq.Term))
+			f, err := pty.Start(cmd)
+			if err != nil {
+				panic(err)
 			}
-		} else {
-			io.WriteString(s, "Wrong user, I accept `gui`.\n")
+			go func() {
+				for win := range winCh {
+					setWinsize(f, win.Width, win.Height)
+				}
+			}()
+			go func() {
+				io.Copy(f, s) // stdin
+			}()
+			io.Copy(s, f) // stdout
 		}
 	})
 
