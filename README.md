@@ -5,7 +5,7 @@ An SSH-accessible key server. You can add/remove your key(s), list every keys on
 
 You can try it:
 ```
-ssh gui@116.203.45.73
+ssh gui@sks.luc.ovh
 ```
 
 Installation
