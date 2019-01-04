@@ -1,1 +1,4 @@
 db.sqlite
+hostkey
+hostkey.pub
+sks
