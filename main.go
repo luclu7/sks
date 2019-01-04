@@ -46,6 +46,6 @@ func main() {
 		return true // allow all keys, or use ssh.KeysEqual() to compare against known keys
 	})
 
-	log.Println("starting ssh server on port 2222...")
-	log.Fatal(ssh.ListenAndServe(":2222", nil, ssh.HostKeyFile("hostkey"), publicKeyOption))
+	log.Println("starting ssh server on port 22...")
+	log.Fatal(ssh.ListenAndServe(":22", nil, ssh.HostKeyFile("hostkey"), publicKeyOption))
 }

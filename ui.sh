@@ -4,7 +4,6 @@ SSHKEY=$1
 function case-dialog {
 case $choix in
 'Add')          add;;
-'Reset')        cp db.sqlite.clean db.sqlite && start_menu;; # yeah this won't be available for everyone
 'Remove')       confirm-remove;;
 'List')         list;;
 'Get')          get;;
@@ -84,7 +83,6 @@ trap "rm -f $fichtemp" 0 1 2 5 15
 $DIALOG --clear --title "SKS - Manage" \
 	--menu "Hello, what do you want to do ?" 20 51 10 \
 	 "Add" "Add your key to SKS" \
-	 "Reset" "Reset the database" \
 	 "Remove" "Remove your key" \
 	 "List" "List keys" \
  	 "Get" "Get specific user's key(s)" \
