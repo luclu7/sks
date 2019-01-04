@@ -16,9 +16,7 @@ esac
 
 function add {
 echo "\$SSHKEY is" $SSHKEY
-existantkey=$(sqlite3 db.sqlite "SELECT * FROM keys WHERE key=='$SSHKEY';")
-
-if [[ $existantkey != "" ]]; then
+if [[ $keyindb == "1" ]]; then
 dialog --title "SKS - Add your key" --msgbox "Your key is already in the database." 5 40
 else
 name=$(dialog --title "SKS - Add your key" --inputbox "What is your name?" 8 40 3>&1 1>&2 2>&3 3>&-)
@@ -27,14 +25,13 @@ echo "Adding you key to the database..."
 sqlite3 db.sqlite <<EOF
 INSERT INTO keys(pseudo,key) VALUES('$name','$SSHKEY');
 EOF
+keyindb=1
 fi
 start_menu
 } 
 
 function confirm-remove {
-existantkey=$(sqlite3 db.sqlite "SELECT * FROM keys WHERE key=='$SSHKEY';")
-
-if [[ $existantkey == "" ]]; then
+if [[ $keyindb == "0" ]]; then
 dialog --title "SKS - Add your key" --msgbox "Your key is not in the database." 5 40
 start_menu
 else
@@ -53,6 +50,7 @@ DELETE FROM keys WHERE key=='$SSHKEY';
 select * from keys;
 EOF
 dialog --title "SKS - Remove your key" --msgbox "Your key has been removed from the database." 6 40
+keyindb=0
 start_menu
 }
 
@@ -100,5 +98,12 @@ case $valret in
 255)	echo "Appuyé sur Echap.";;
 esac
 }
+
+existantkey=$(sqlite3 db.sqlite "SELECT * FROM keys WHERE key=='$SSHKEY';")
+if [[ $existantkey != "" ]]; then
+keyindb=1
+else
+keyindb=0
+fi
 
 start_menu
