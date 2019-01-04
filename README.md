@@ -40,7 +40,7 @@ go build
 
 Now, connect to it:
 ```
-ssh gui@localhost -p 2222
+ssh localhost
 ```
 
 Everything is (technically) working!
